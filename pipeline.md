@@ -25,6 +25,14 @@ Run the code provided with the paper.
 - I make it run for 20,000 iterations taking around 4 hours and saved the model and the sample output images.
 - The sample images showed similar characteristics approaching the ones provided in the paper but with lower quality. (Because GAN hasn't been trained enough)
 
+**Sample:**
+
+
+| Original | Black Hair | Blond Hair | Brown Hair | Male | Young |
+|----------|------------|------------|------------|------|-------|
+
+<img src="images/20000-images.jpg" alt="drawing" width="500"/>
+
 # Phase 2
 
 Understand how GANs work and reimplement the same idea elaborated in the paper in a generic way making a library that can be used with multiple datasets. In contrast with the code provided with the paper, which has many lines related to those specific datasets used to show off the work of the paper.
