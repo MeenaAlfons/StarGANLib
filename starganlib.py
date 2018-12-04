@@ -367,7 +367,6 @@ class StarGAN(object):
         # Compute loss for gradient penalty.
         alpha = torch.rand(x_real.size(0), 1, 1, 1).to(self.device)
         x_hat = (alpha * x_real.data + (1 - alpha) * x_fake.data).requires_grad_(True)
-        save_image(x_hat.data.cpu(), "./temp/sampple.jpg", nrow=1, padding=0)
         out_src, _ = self.D(x_hat)
         d_loss_gp = self.gradient_penalty(out_src, x_hat)
         
