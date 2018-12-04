@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
     train_params = sg.TrainingParams(
         resume_iter=0,
-        num_iters=200000,
+        num_iters=20000,
         num_iters_decay=100000,
         lr_update_step=1000,
         log_step=10,
