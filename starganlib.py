@@ -16,7 +16,7 @@ class HyperParamters(object):
         image_size=128,
         batch_size=3,
         num_workers=1,
-        mode = 'train',
+        mode='train',
         n_critic=1,
 
         # Generator
@@ -30,7 +30,7 @@ class HyperParamters(object):
         d_repeat_num=6,
 
         # Optimizer
-        adam_betas=(0.9,0.999),
+        adam_betas=(0.5, 0.999),
         
         lambda_cls=1,
         lambda_rec=10,
