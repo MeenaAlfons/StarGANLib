@@ -1,10 +1,18 @@
 import os
+import argparse
 from torchvision import transforms as T
 
 import starganlib as sg
 from datasets.CelebA import CelebA
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    
+    # Training configuration.
+    parser.add_argument('--batch_size', type=int, default=16, help='mini-batch size')
+
+    config = parser.parse_args()
+
     crop_size=178
     image_size=128
     transform = []
@@ -23,7 +31,7 @@ if __name__ == '__main__':
 
     hyper_parameters = sg.HyperParamters(
         image_size=image_size,
-        batch_size=16,
+        batch_size=config.batch_size,
         n_critic=5,
         num_workers=1,
         mode='train',
