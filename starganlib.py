@@ -419,7 +419,7 @@ class StarGAN(object):
         start_iter = 0
         if train_params.resume_iter > 0:
             self.restore_model(train_params.model_save_dir, train_params.resume_iter)
-            stat_iter = train_params.resume_iter
+            start_iter = train_params.resume_iter
 
         # Learning rate cache for decaying.
         g_lr = self.h_params.g_lr

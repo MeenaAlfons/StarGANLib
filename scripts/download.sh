@@ -7,7 +7,7 @@ if [ $FILE == "celeba" ]; then
     ZIP_FILE=./data/CelebA_nocrop.zip
     mkdir -p ./data/
     wget -N $URL -O $ZIP_FILE
-    unzip -q -o $ZIP_FILE -d ./data/
+    unzip -q -o $ZIP_FILE -d ./data/ | awk 'BEGIN {ORS=" "} {if(NR%10==0)print "."}'
     rm $ZIP_FILE
 
     # CelebA attribute labels
