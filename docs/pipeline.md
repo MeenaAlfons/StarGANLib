@@ -46,7 +46,7 @@ Understand how GANs work and reimplement the same idea elaborated in the paper i
 - The training code for StarGAN has been adapted to work on multiple datasets with different labels
 - HotOneWrapper has been introduced to adapt all Dataset classes in pyTorch to work with StarGAN
 - A document has been made describing different type of datasets and how to deal with them. [Working with Datasets](datasets.md).
-- The new code has been run on Colab for 76,000 epochs with a batch 10 images for each epoch and the results seems promising and like the ones shown in the original paper. See below for the results.
+- The new code has been run on Colab for 76,000 epochs with a batch 10 images for each epoch and the results seems promising and like the ones shown in the original paper. See below for the results. Here is the [colab sheet](https://colab.research.google.com/drive/1bmI1DPd-A1PwMC1ZprLPK7zfNFqWCcnU) used for the training.
 - Essential tips for using Colab for deep learning has been documented. [Colab Tips](colab.md)
 
 **Phase 2 Sample:**
