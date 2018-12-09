@@ -1,6 +1,6 @@
-# Datasets
+# Working with datasets
 
-There are multiple kinds of datasets. Following are the two interesting types of datasets that stargan is supposed to work with them
+There are multiple kinds of datasets. Following are the two interesting types of datasets that stargan is supposed to work with.
 
 ## Single Attribute Dataset
 
@@ -47,3 +47,12 @@ Using HotOneWrapper allows having some samples with the hot one vector with all 
 Example:
 
 - The original [StarGAN]() implementation uses dataset called "CelebA" and choose specific labels to be trained. Some of the images of this dataset does not have any of these label for which the hot one vector will be all zeros [0, 0, ..., 0]. However, they are using those images in training.
+
+
+# Future Development
+
+What if we have two datasets with the same labels?
+What if some of the labels exists in both datasets?
+
+Example: If we'd like to apply StarGAN on Day and Night images and we have multiple sets with day/night labeling. How can we use all those datasets to train the network on the Day/Night concepts?
+

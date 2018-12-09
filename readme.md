@@ -1,4 +1,6 @@
 # StarGANLib
 
+- [pipeline](docs/pipeline.md)
 - [installation](docs/installation.md)
-- [datasets](docs/datasets.md)
+- [Working with datasets](docs/datasets.md)
+- [Colab Tips](docs/colab.md)
