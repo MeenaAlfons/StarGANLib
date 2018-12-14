@@ -74,7 +74,7 @@ Three variations of training are doumented in the paper:
 
 The results of phase 2 has already included training for 76000 epochs to get similar results. I don't think it is a good idea to repeat what they have done. I think we can skip this phase and start working on new datasets and other applications as shown in phase 4.
 
-I would also like to study the architecture of StarGAN and document to get more insights and to be able to alter it as neccesary to give better results on other applications. So I suggest to make PHase 3 about:
+I would also like to study the architecture of StarGAN and document it to get more insights and to be able to alter it as neccesary to give better results on other applications. So I suggest to make Phase 3 about:
 
 - Understanding and documenting the architecture, hyper parameters and training approach of StarGAN
 
