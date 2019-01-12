@@ -17,11 +17,6 @@ class Poducer(object):
         image_size=128,
         batch_size=3,
         num_workers=1,
-
-        # Generator
-        g_conv_dim=64,
-        g_repeat_num=6,
-        
         log_step=1,
         results_dir='./samples',
         model_save_dir='./model',
@@ -31,10 +26,6 @@ class Poducer(object):
         self.image_size = image_size
         self.batch_size = batch_size
         self.num_workers = num_workers
-
-        # Generator hyper parameters
-        self.g_conv_dim = g_conv_dim
-        self.g_repeat_num = g_repeat_num
 
         self.log_step = log_step
         self.results_dir = results_dir
@@ -59,9 +50,9 @@ class Poducer(object):
             label_dimension += self.num_datasets
 
         self.G = Generator(
-            self.g_conv_dim, 
-            label_dimension, 
-            self.g_repeat_num)
+            self.image_size, 
+            label_dimension
+            )
 
         self.G.to(self.device)
         self.model_ready = True
