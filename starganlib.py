@@ -179,18 +179,26 @@ class StarGAN(object):
         datasetClassesStartIndex, datasetClassesEndIndex = self.datasetClassesIndeces(datasetIndex)
         zeros[:,datasetClassesStartIndex:datasetClassesEndIndex] = label_org
 
-        mask = torch.zeros(batch_size, self.num_datasets)
-        mask[:,datasetIndex] = 1
+        if self.num_datasets > 1:
+            mask = torch.zeros(batch_size, self.num_datasets)
+            mask[:,datasetIndex] = 1
 
-        c_org = torch.cat([zeros, mask], dim=1)
+            c_org = torch.cat([zeros, mask], dim=1)
+        else:
+            c_org = zeros
+
         return c_org
 
     def build_model(self):
         """ """
         # Build generator
+        label_dimension = self.total_classes_num
+        if self.num_datasets > 1:
+            label_dimension += self.num_datasets
+
         self.G = Generator(
             self.h_params.image_size,
-            self.total_classes_num + self.num_datasets
+            label_dimension
             )
             
         # Build Discriminator
