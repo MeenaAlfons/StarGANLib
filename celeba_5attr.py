@@ -12,7 +12,6 @@ from torchvision import transforms as T
 if __name__ == '__main__':
 
     dirname = os.path.dirname(__file__)
-    dataset1Path = os.path.join(dirname, './data/dataset1/train')
 
     crop_size=178
     image_size=128
@@ -24,10 +23,6 @@ if __name__ == '__main__':
     transform.append(T.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)))
     transform = T.Compose(transform)
 
-    dataset1 = HotOneWrapper(datasets.ImageFolder(dataset1Path, transform=transform), 2)
-    dataset2 = HotOneWrapper(datasets.ImageFolder(dataset1Path, transform=transform), 2)
-    dataset3 = HotOneWrapper(datasets.ImageFolder(dataset1Path, transform=transform), 2)
-
     image_dir = "E:/AlexU/master/Computer Vision - Marwan/project/stargan/data/CelebA_nocrop/images"
     attr_path = "E:/AlexU/master/Computer Vision - Marwan/project/stargan/data/list_attr_celeba.txt"
     chosen_attributes = ['Black_Hair', 'Blond_Hair', 'Brown_Hair', 'Male', 'Young']
@@ -35,13 +30,10 @@ if __name__ == '__main__':
 
     hyper_parameters = sg.HyperParamters()
     stargan = sg.StarGAN(hyper_parameters)
-    stargan.addDataset(dataset1, 2)
-    stargan.addDataset(dataset2, 2)
-    stargan.addDataset(dataset3, 2)
     stargan.addDataset(celeba, 5)
-    
     training_parameters = sg.TrainingParams(
-        num_iters=1
+        resume_iter=200000,
+        num_iters=200001
     )
     stargan.train(training_parameters)
 
