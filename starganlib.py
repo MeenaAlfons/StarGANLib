@@ -21,13 +21,9 @@ class HyperParamters(object):
 
         # Generator
         g_lr=0.0001,
-        g_conv_dim=64,
-        g_repeat_num=6,
 
         # Discriminator
         d_lr=0.0001,
-        d_conv_dim=64,
-        d_repeat_num=6,
 
         # Optimizer
         adam_betas=(0.5, 0.999),
@@ -44,14 +40,10 @@ class HyperParamters(object):
         self.n_critic = n_critic
 
         # Generator hyper parameters
-        self.g_conv_dim = g_conv_dim
         self.g_lr = g_lr
-        self.g_repeat_num = g_repeat_num
 
         # Discriminator hyper parameters
-        self.d_conv_dim = d_conv_dim
         self.d_lr = d_lr
-        self.d_repeat_num = d_repeat_num
 
         # Optimizer
         self.adam_betas = adam_betas
@@ -205,16 +197,15 @@ class StarGAN(object):
             label_dimension += self.num_datasets
 
         self.G = Generator(
-            self.h_params.g_conv_dim, 
-            label_dimension, 
-            self.h_params.g_repeat_num)
+            self.h_params.image_size,
+            label_dimension
+            )
             
         # Build Discriminator
         self.D = Discriminator(
-            self.h_params.image_size, 
-            self.h_params.d_conv_dim, 
-            self.total_classes_num, 
-            self.h_params.d_repeat_num) 
+            self.h_params.image_size,
+            self.total_classes_num
+            ) 
 
         # Optimizers
         self.g_optimizer = torch.optim.Adam(self.G.parameters(), self.h_params.g_lr, self.h_params.adam_betas)
