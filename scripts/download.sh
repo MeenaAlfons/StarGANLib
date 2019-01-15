@@ -3,17 +3,17 @@ FILE=$1
 if [ $FILE == "celeba" ]; then
 
     # CelebA images
-    URL=https://www.dropbox.com/s/3e5cmqgplchz85o/CelebA_nocrop.zip?dl=0
+    URL=https://drive.google.com/file/d/1SSnOlN3Usp9nLYKRyUtRYfYMhiovPOOb/view?usp=sharing
     ZIP_FILE=./data/CelebA_nocrop.zip
     mkdir -p ./data/
-    wget -N $URL -O $ZIP_FILE
+    ./gd.sh $URL $ZIP_FILE
     unzip -q -o $ZIP_FILE -d ./data/ | awk 'BEGIN {ORS=" "} {if(NR%10==0)print "."}'
     rm $ZIP_FILE
 
     # CelebA attribute labels
-    URL=https://www.dropbox.com/s/auexdy98c6g7y25/list_attr_celeba.zip?dl=0
+    URL=https://drive.google.com/file/d/1ADCREPUuLKqIB0c1hzriLgu_e0v9rdVX/view?usp=sharing
     ZIP_FILE=./data/list_attr_celeba.zip
-    wget -N $URL -O $ZIP_FILE
+    ./gd.sh $URL $ZIP_FILE
     unzip -q -o $ZIP_FILE -d ./data/
     rm $ZIP_FILE
 
