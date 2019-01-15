@@ -3,7 +3,7 @@ if [ $# -eq 2 ];then
     FILEID=$1
     FILE_PATH=$2
 
-    echo "Downloading from ULR $FILEID into $FILE_PATH"
+    echo "Downloading from URL $FILEID into $FILE_PATH"
 
     FILEID="$(echo $FILEID | sed -n 's#.*\https\:\/\/drive\.google\.com/file/d/\([^.]*\)\/view.*#\1#;p')";
     FILENAME="$(wget -q --show-progress -O - "https://drive.google.com/file/d/$FILEID/view" | sed -n -e 's!.*<title>\(.*\)\ \-\ Google\ Drive</title>.*!\1!p')";

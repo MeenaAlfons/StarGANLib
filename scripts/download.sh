@@ -2,7 +2,6 @@ FILE=$1
 
 if [ $FILE == "celeba" ]; then
     __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    echo "script directory is $__dir"
 
     # CelebA images
     URL=https://drive.google.com/file/d/1SSnOlN3Usp9nLYKRyUtRYfYMhiovPOOb/view?usp=sharing
