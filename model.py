@@ -2,7 +2,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-
+import os
+from torchvision.utils import save_image
+import math
 
 class ResidualBlock(nn.Module):
     """Residual Block with instance normalization."""
@@ -21,8 +23,17 @@ class ResidualBlock(nn.Module):
 
 class Generator(nn.Module):
     """Generator network."""
-    def __init__(self, image_size=128, c_dim=5):
+    def __init__(self,
+    image_size=128,
+    c_dim=5,
+    save_intermediate=False,
+    save_intermediate_dir='./intermediate',
+    save_intermediate_prefix='layer'
+    ):
         super(Generator, self).__init__()
+        self.save_intermediate_dir = save_intermediate_dir
+        self.save_intermediate_prefix = save_intermediate_prefix
+        
         repeat_num = int(np.log2(image_size)) - 1
         first_conv_dim = 2**repeat_num
 
@@ -52,6 +63,11 @@ class Generator(nn.Module):
 
         layers.append(nn.Conv2d(curr_dim, 3, kernel_size=7, stride=1, padding=3, bias=False))
         layers.append(nn.Tanh())
+
+        if save_intermediate:
+            for index, layer in enumerate(layers):
+                layer.register_forward_hook(self.printLayerHook(index))
+
         self.main = nn.Sequential(*layers)
 
     def forward(self, x, c):
@@ -60,6 +76,41 @@ class Generator(nn.Module):
         c = c.repeat(1, 1, x.size(2), x.size(3))
         x = torch.cat([x, c], dim=1)
         return self.main(x)
+
+    def printLayerHook(self, layerIndex):
+        def hook(module, input_, output):
+            if layerIndex == 0:
+                self.saveLayer(layerIndex, input_[0])
+            self.saveLayer(layerIndex+1, output)
+        return hook 
+    
+    def saveLayer(self, layerIndex, data):
+        # layer associated with the first image of the batch
+        layersOfFirstItem = data[0]
+        if layersOfFirstItem.shape[0] == 3 :
+            # also save it as RGB image
+            asRGB = layersOfFirstItem.unsqueeze(0)
+            image_name = "{}-{}-rgb.jpg".format(self.save_intermediate_prefix, layerIndex)
+            self.saveImage(asRGB, image_name)
+        
+        layers_1_channel = layersOfFirstItem.unsqueeze(1)
+        layers_3_channel = layers_1_channel.repeat(1, 3, 1, 1)
+        
+        image_name = "{}-{}.jpg".format(self.save_intermediate_prefix, layerIndex)
+        self.saveImage(layers_3_channel, image_name)
+        
+    def saveImage(self, tensor, image_name):
+        image_path = os.path.join(self.save_intermediate_dir, image_name)
+        w = int(math.sqrt(tensor.shape[0] * 16 / 9))
+        save_image(
+            self.denorm(tensor), image_path,
+            nrow=w,
+            padding=0)
+
+    def denorm(self, x):
+        """Convert the range from [-1, 1] to [0, 1]."""
+        out = (x + 1) / 2
+        return out.clamp_(0, 1)
 
 
 class Discriminator(nn.Module):
