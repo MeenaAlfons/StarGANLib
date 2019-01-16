@@ -17,6 +17,7 @@ if __name__ == '__main__':
     target_path = os.path.join(image_dir, 'targets.txt')
     model_save_dir = os.path.join(dirname, './pretrained_model')
     results_dir = os.path.join(dirname, './results')
+    save_intermediate_dir = os.path.join(dirname, './intermediate')
 
     crop_size=178
     image_size=128
@@ -41,7 +42,10 @@ if __name__ == '__main__':
         dataset_labels_sizes=dataset_labels_sizes,
         model_save_iter=200000,
         model_save_dir=model_save_dir,
-        results_dir=results_dir
+        results_dir=results_dir,
+        batch_size=6,
+        save_intermediate=True,
+        save_intermediate_dir=save_intermediate_dir
         )
 
     producer.produce(imageWithTargetDataset)

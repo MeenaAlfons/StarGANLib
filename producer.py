@@ -21,6 +21,9 @@ class Poducer(object):
         results_dir='./samples',
         model_save_dir='./model',
         model_save_iter=0,
+        save_intermediate=False,
+        save_intermediate_dir='./intermediate',
+        save_intermediate_prefix='layer'
         ):
         """Contructor"""
         self.image_size = image_size
@@ -32,6 +35,10 @@ class Poducer(object):
         self.model_save_dir = model_save_dir
         self.model_save_iter = model_save_iter
 
+        self.save_intermediate = save_intermediate
+        self.save_intermediate_dir = save_intermediate_dir
+        self.save_intermediate_prefix = save_intermediate_prefix
+
         self.dataset_labels_sizes = dataset_labels_sizes
         self.num_datasets = len(dataset_labels_sizes)
         self.total_num_labels = sum(dataset_labels_sizes)
@@ -42,6 +49,10 @@ class Poducer(object):
         self.build_model()
         self.restore_model(model_save_dir, model_save_iter)
 
+        gDict = self.G.state_dict()
+        for key in gDict:
+            print("{}.shape = {}".format(key, gDict[key].shape))
+
     def build_model(self):
         """ """
         # Build generator
@@ -51,7 +62,10 @@ class Poducer(object):
 
         self.G = Generator(
             self.image_size, 
-            label_dimension
+            label_dimension,
+            save_intermediate=self.save_intermediate,
+            save_intermediate_dir=self.save_intermediate_dir,
+            save_intermediate_prefix=self.save_intermediate_prefix
             )
 
         self.G.to(self.device)
@@ -77,10 +91,16 @@ class Poducer(object):
         data_iterator = iter(data_loader)
         while True:
             try:
+                start_time = time.time()
+
                 images, targets, filenames = next(data_iterator)
-                print(filenames)
                 images = images.to(self.device)
                 output_images = self.G(images, targets)
+
+                elapsed_time = time.time() - start_time
+                elapsed_time = str(datetime.timedelta(seconds=elapsed_time))[:-7]
+                print("Elapsed [{}]".format(elapsed_time))
+
                 self.save(output_images, filenames)
             except StopIteration:
                 break

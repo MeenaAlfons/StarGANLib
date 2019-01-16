@@ -37,8 +37,6 @@ class ImageWithTarget(data.Dataset):
             for value in values:
                 target.append(value == '1')
 
-            print(filename, target)
-
             self.dataset.append([filename, target])
 
         print('Finished preprocessing images with targets...')
