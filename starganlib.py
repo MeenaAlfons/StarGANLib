@@ -59,6 +59,8 @@ class TrainingParams(object):
     
     def __init__(self, 
         resume_iter=0,
+        resume_g_lr=0.0001,
+        resume_d_lr=0.0001,
         num_iters=1,       # 200000
         num_iters_decay=1, # 100000
         lr_update_step=1000,
@@ -70,6 +72,8 @@ class TrainingParams(object):
         ):
         """Contructor"""
         self.resume_iter = resume_iter
+        self.resume_g_lr = resume_g_lr
+        self.resume_d_lr = resume_d_lr
         self.num_iters = num_iters
         self.num_iters_decay = num_iters_decay
         self.lr_update_step = lr_update_step
@@ -421,8 +425,12 @@ class StarGAN(object):
             start_iter = train_params.resume_iter
 
         # Learning rate cache for decaying.
-        g_lr = self.h_params.g_lr
-        d_lr = self.h_params.d_lr
+        if train_params.resume_iter > 0:
+            g_lr = train_params.resume_g_lr
+            d_lr = train_params.resume_g_lr
+        else:
+            g_lr = self.h_params.g_lr
+            d_lr = self.h_params.d_lr
 
         print('Start training...')
         start_time = time.time()
@@ -463,7 +471,6 @@ class StarGAN(object):
 
             # END iterations loop
 
-    
     def reset_data_iterators(self):
         for datasetIndex in range(self.num_datasets):
             self.data_iterators[datasetIndex] = iter(self.data_loaders[datasetIndex])
